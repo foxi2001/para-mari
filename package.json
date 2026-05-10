@@ -1,0 +1,13 @@
+{
+  "name": "para-mari",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Para Mari — Día de la Madre. Static site + Vercel functions + Supabase.",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  }
+}

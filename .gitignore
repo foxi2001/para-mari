@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Node / Vercel build artifacts
+node_modules/
+.vercel/
+*.log
+
+# Secrets — NEVER commit env files with real values
+.env
+.env.local
+.env.*.local
+
+# Note: .env.example IS committed — it documents the required vars.
+# Note: .image-slots.state.json IS committed — it's the offline-mode bundle
+# of photos. With Supabase configured, this file is optional.
