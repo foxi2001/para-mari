@@ -558,6 +558,7 @@
     position: absolute; inset: 0;
     transform-style: preserve-3d;
     transition: transform 1s var(--ease-spring);
+    will-change: transform;
   }
   .reason-card.flipped .inner { transform: rotateY(180deg); }
   @media (hover: hover) { .reason-card:hover .inner { transform: rotateY(180deg); } }
@@ -569,12 +570,30 @@
     border: 1px solid rgba(43,31,26,.08);
     padding: 32px 28px;
     display: flex; flex-direction: column; justify-content: space-between;
+    /* Opacity backup so mobile Safari / older Chromium can never end up with
+       both faces hidden if preserve-3d misbehaves. */
+    transition: opacity .35s ease;
   }
+  /* Front: forced explicit rotation + visible by default */
+  .reason-card .front { transform: rotateY(0deg) translateZ(0.01px); opacity: 1; }
   .reason-card .front::before { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(184,146,78,.4); pointer-events: none; }
   .reason-card .num { font-family: var(--display); font-style: italic; color: var(--gold); font-size: 22px; }
   .reason-card .front h3 { font-family: var(--display); font-weight: 400; font-size: clamp(22px, 1.95vw, 30px); line-height: 1.18; margin: 0; color: var(--ink); }
   .reason-card .front .hint { font-size: 9px; letter-spacing: .35em; text-transform: uppercase; color: var(--rose); }
-  .reason-card .back { transform: rotateY(180deg); background: linear-gradient(150deg, var(--rose) 0%, var(--rose-deep) 100%); color: var(--paper); padding: 32px 28px; }
+  /* Back: pre-rotated 180° so when parent flips, it lands at 0° facing user. */
+  .reason-card .back { transform: rotateY(180deg) translateZ(0.01px); background: linear-gradient(150deg, var(--rose) 0%, var(--rose-deep) 100%); color: var(--paper); padding: 32px 28px; opacity: 0; }
+  /* Once flipped, swap which face is opaque (the rotation does the visual work,
+     opacity guarantees we never end up looking at a back-facing transparent card). */
+  .reason-card.flipped .front,
+  .reason-card:hover .front { opacity: 0; }
+  .reason-card.flipped .back,
+  .reason-card:hover .back  { opacity: 1; }
+  @media (hover: none) {
+    .reason-card:hover .front { opacity: 1; }
+    .reason-card:hover .back  { opacity: 0; }
+    .reason-card.flipped:hover .front { opacity: 0; }
+    .reason-card.flipped:hover .back  { opacity: 1; }
+  }
   .reason-card .back::before { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(255,249,238,.30); pointer-events: none; }
   .reason-card .back p { font-family: var(--serif); font-size: 18px; line-height: 1.5; margin: 0; }
   .reason-card .back .glyph { font-family: var(--display); font-style: italic; font-size: 50px; opacity: .55; line-height: 0.4; }
