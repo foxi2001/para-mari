@@ -10,12 +10,6 @@
       ]
     },
     {
-      "source": "/(.*\\.(js|jsx|css|svg|png|jpg|jpeg|webp|avif|woff2))",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
-      ]
-    },
-    {
       "source": "/.image-slots.state.json",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache" },
