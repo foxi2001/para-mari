@@ -682,23 +682,38 @@
   .star-canvas-wrap .moon { position: absolute; top: 8%; right: 8%; width: 52px; height: 52px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #FFFFE9, #E2C888); box-shadow: 0 0 24px rgba(226,200,136,.5), 0 0 60px rgba(226,200,136,.3); pointer-events: none; }
   .star-counter { text-align: center; margin-top: 30px; font-family: var(--display); font-style: italic; color: var(--gold-soft); font-size: 22px; }
 
-  /* ==========  HEART  ========== */
-  .heart-section { padding: 18vh 6vw 14vh; text-align: center; background: linear-gradient(180deg, var(--bg) 0%, var(--rose-tint) 100%); position: relative; overflow: hidden; }
-  .heart-section h2 { margin: 0 auto; max-width: 800px; }
+  /* ==========  HEART  ==========
+     Flex column on the section centers EVERY child horizontally with no
+     reliance on margin auto / text-align fragility. Heart sizes fluidly
+     with clamp() — no breakpoint hops. */
+  .heart-section {
+    padding: clamp(60px, 14vh, 140px) clamp(20px, 6vw, 80px);
+    background: linear-gradient(180deg, var(--bg) 0%, var(--rose-tint) 100%);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  .heart-section > * { max-width: 800px; width: 100%; }
+  .heart-section h2 { margin: 0; }
+  .heart-section .num-tag,
+  .heart-section .body-lg { width: auto; max-width: 560px; }
   .heart-button {
     position: relative;
-    width: 240px; height: 240px;
-    margin: 60px auto 20px;
+    width: clamp(170px, 42vw, 240px);
+    aspect-ratio: 1 / 1;
+    height: auto;
+    margin: clamp(36px, 7vh, 70px) 0 clamp(48px, 7vh, 80px);
+    padding: 0;
     border: none; background: transparent; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     -webkit-tap-highlight-color: transparent;
+    flex: 0 0 auto;
   }
-  .heart-button svg { width: 100%; height: 100%; transition: transform .25s var(--ease-out); filter: drop-shadow(0 14px 28px rgba(160,62,82,.32)); }
+  .heart-button svg { width: 100%; height: 100%; transition: transform .25s var(--ease-out); filter: drop-shadow(0 14px 28px rgba(160,62,82,.32)); display: block; }
   .heart-button:hover svg { transform: scale(1.04); }
   .heart-button:active svg { transform: scale(.94); }
-  .heart-button .label { position: absolute; bottom: -54px; left: 50%; transform: translateX(-50%); font-family: var(--sans); font-size: 10px; letter-spacing: .35em; text-transform: uppercase; color: var(--rose); white-space: nowrap; }
-  .heart-counter { font-family: var(--display); font-style: italic; font-size: clamp(40px, 5vw, 76px); color: var(--rose); margin-top: 100px; }
-  .heart-counter .unit { font-family: var(--sans); font-style: normal; font-size: 12px; letter-spacing: .35em; text-transform: uppercase; color: var(--ink-soft); display: block; margin-top: 6px; }
+  .heart-button .label { position: absolute; bottom: -32px; left: 50%; transform: translateX(-50%); font-family: var(--sans); font-size: clamp(9px, 2.4vw, 11px); letter-spacing: .35em; text-transform: uppercase; color: var(--rose); white-space: nowrap; }
+  .heart-counter { font-family: var(--display); font-style: italic; font-size: clamp(36px, 8vw, 76px); color: var(--rose); margin-top: clamp(40px, 7vh, 80px); line-height: 1; }
+  .heart-counter .unit { font-family: var(--sans); font-style: normal; font-size: clamp(10px, 2.6vw, 12px); letter-spacing: .35em; text-transform: uppercase; color: var(--ink-soft); display: block; margin-top: 10px; }
   .floating-heart {
     position: absolute; pointer-events: none;
     color: var(--rose); font-size: 22px;
@@ -963,8 +978,7 @@
     .star-canvas-wrap .moon { top: 6%; right: 6%; width: 42px; height: 42px; }
 
     /* HEART */
-    .heart-button { width: 200px; height: 200px; margin: 50px auto 20px; }
-    .heart-counter { margin-top: 80px; }
+    /* heart sizing now handled fluidly with clamp() in the base block */
 
     /* GIFT — shorter stage and milder pop-up */
     .gift-stage { min-height: 420px; perspective: 1200px; }
@@ -1081,9 +1095,7 @@
     .star-counter { font-size: 18px; margin-top: 22px; }
 
     /* HEART */
-    .heart-section { padding: 12vh 22px 10vh; }
-    .heart-button { width: 200px; height: 200px; }
-    .heart-counter { font-size: clamp(34px, 9vw, 56px); margin-top: 80px; }
+    /* heart-section padding handled by clamp() in base; sizing too */
 
     /* GIFT */
     .gift-section { padding: 14vh 22px; }
@@ -1184,9 +1196,7 @@
     .star-canvas-wrap .moon { width: 30px; height: 30px; }
 
     /* HEART — smaller on tiny screens */
-    .heart-button { width: 180px; height: 180px; margin-top: 36px; }
-    .heart-button .label { bottom: -40px; font-size: 9px; }
-    .heart-counter { margin-top: 70px; font-size: clamp(30px, 9vw, 48px); }
+    /* heart sizing handled by clamp() in base — fluid across all viewports */
 
     /* GIFT */
     .gift-stage { min-height: 340px; }
